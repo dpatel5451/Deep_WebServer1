@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static WDD_A6.InputVerification;
 
 namespace Deep_WebServer
 {
@@ -24,6 +25,8 @@ namespace Deep_WebServer
 	{
 		static void Main(string[] args)
 		{
+
+			ValidateEntireWebRoot(args[0]);
 
 			//Initializes instance of local variable server.  
 			Server serve = new Server();
