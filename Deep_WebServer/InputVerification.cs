@@ -20,8 +20,7 @@ namespace WDD_A6
         {
             string regExpRoot = @"^–webRoot=(.*)$";
             Regex myRegex = new Regex(regExpRoot);
-            var match = myRegex.Match(text);
-            return true;
+            return myRegex.IsMatch(text);
         }
 
         public static bool ValidateWebIp(string host)
