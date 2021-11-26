@@ -26,7 +26,7 @@ namespace Deep_WebServer
 		static void Main(string[] args)
 		{
 
-			ValidateEntireWebRoot(args[0]);
+			//ValidateEntireWebRoot(args[0]);
 
 			//Initializes instance of local variable server.  
 			Server serve = new Server();

@@ -21,7 +21,7 @@ namespace Deep_WebServer
 {
 
     /* Name      : Server
-    * Purpose   : 
+    * Purpose    : 
     */
     class Server
     {
@@ -106,18 +106,40 @@ namespace Deep_WebServer
 
                                 string extension = inputData[1].Substring(place+1);
 
-                                if(extension == "html" || extension == "htm" || extension == "jpg" || extension == "gif" || extension == "txt")
+                                if(extension == "html" || extension == "htm" || extension == "txt")
                                 {
                                     file = root + inputData[1];
 
                                     string fileInformation = File.ReadAllText(file);
                                     DateTime time = DateTime.Now;
                                     string res = "HTTP/1.1\r\nContent-Type: text/html\r\nContent-Length: " + fileInformation.Length.ToString() + "\r\nServer: " + ip + "\r\nDate: " + time.ToString() + "\r\n\r\n" + fileInformation;
+                                    //File.ReadAllBytes(file);
+
 
                                     byte[] msg = System.Text.Encoding.ASCII.GetBytes(res);
 
                                     //Writes data to NetworkStream.
                                     stream.Write(msg, 0, msg.Length);
+                                }
+                                else if(extension == "jpg" || extension == "gif")
+                                {
+                                    file = root + inputData[1];
+
+                                    DateTime time = DateTime.Now;
+
+                                    byte[] fileInformation = File.ReadAllBytes(file);
+
+                                    string res = "HTTP/1.1\r\nContent-Type: text/html\r\nContent-Length: " + fileInformation.Length.ToString() + "\r\nServer: " + ip + "\r\nDate: " + time.ToString() + "\r\n\r\n";
+
+                                   
+                                    byte[] msg = System.Text.Encoding.ASCII.GetBytes(res);
+
+                                    byte[] bytess = new byte[msg.Length + fileInformation.Length];
+                                    Buffer.BlockCopy(msg, 0, bytes, 0, msg.Length);
+                                    Buffer.BlockCopy(fileInformation, 0, bytes, msg.Length, fileInformation.Length);
+
+                                    //Writes data to NetworkStream.
+                                    stream.Write(bytess, 0, bytess.Length);
                                 }
                                 else
                                 {
