@@ -19,21 +19,58 @@ namespace Deep_WebServer
 {
 
 	/* Name     : Program
-    * Purpose   : The purpose of this class is to intialize instance of server and will start the server.
+    * Purpose   : The purpose of this class is to initialize instance of server and will start the server.
     */
 	internal class Program
 	{
 		static void Main(string[] args)
 		{
+			string webRoot = "";
+			string webIp = "";
+			string webPort = "";
 
-			//ValidateEntireWebRoot(args[0]);
+			bool isValidInput = false;
+			if (args.Length != 3)
+			{
+				Console.WriteLine("Please enter arguments for all three command line arguments:");
+				Console.WriteLine(@"myOwnWebServer –webRoot=C:\localWebSite –webIP=192.168.100.23 –webPort=5300");
+			}
+			else
+			{
+				isValidInput = true;
+				if (!ValidateEntireWebRoot(args[0], out webRoot))
+				{
+					Console.WriteLine("Please enter the switch for the webRoot correctly, e.g.: \"–webRoot=C:\\localWebSite\"");
+					isValidInput = false;
+				}
+				if (!ValidateEntireWebIp(args[1], out webIp))
+				{
+					Console.WriteLine("Please enter the switch for the webIp correctly, e.g.: \"–webIP=192.168.0.100.23\"");
+					isValidInput = false;
+				}
+				if (!ValidateEntireServerPort(args[2], out webPort))
+				{
+					Console.WriteLine("Please enter the switch for the serverPort correctly, e.g.: \"–webIP=5300\"");
+					isValidInput = false;
+				}
+			}
 
-			//Initializes instance of local variable server.  
-			Server serve = new Server();
+			if (!isValidInput)
+			{
+				Console.ReadKey();
+				return;
+			}
+			else
+            {
+				Console.WriteLine("You entered the webRoot as: {0}, the webIp as: {1}, and the webPort as: {2}", webRoot, webIp, webPort);
+				Console.WriteLine("Starting the server now...");
+            }
+
+            //Initializes instance of local variable server.  
+            Server serve = new Server();
 
 			//Starts the server.
-			serve.StartServer(@"C:/localWebSite", "127.0.0.1", "15000");
-
+			serve.StartServer(webRoot, webIp, webPort);
 		}
 	}
 }
