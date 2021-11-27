@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{CE007CB7-AA80-4766-8A62-CBF95F333E4B}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>Deep_WebServer</RootNamespace>
-    <AssemblyName>Deep_WebServer</AssemblyName>
+    <RootNamespace>myOwnWebServer</RootNamespace>
+    <AssemblyName>myOwnWebServer</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -50,6 +50,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Error Page\errorPage.html" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
