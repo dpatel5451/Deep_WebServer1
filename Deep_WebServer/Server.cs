@@ -90,7 +90,6 @@ namespace myOwnWebServer
                         //Instantiating stream as an NetworkStream object and It also sends and recieve data.
                         NetworkStream stream = client.GetStream();
 
-                        MyLogger.Log("Incoming Request...");
 
                         //Initializes local variables.
                         int length = 0;
@@ -100,6 +99,7 @@ namespace myOwnWebServer
                         while ((length = stream.Read(bytes, 0, bytes.Length)) != 0)
                         {
 
+                            MyLogger.Log("[Server Request]" + " - " + "HTTP/1.1 Content-Type: text/html Content-Length: " + fileInformation.Length.ToString() + "Server: " + ip + "Date: " + time.ToString());
                             
 
                             //Stores the incoming message.
@@ -131,7 +131,7 @@ namespace myOwnWebServer
 
                                     string res = "HTTP/1.1\r\nContent-Type: text/html\r\nContent-Length: " + ContentLength + "\r\nServer: " + ip + "\r\nDate: " + time.ToString() + "\r\n\r\n" + fileInformation;
 
-                                    MyLogger.Log("[Server Response] " + "HTTP / 1.1\r\nContent - Type: text / html\r\nContent - Length: " + ContentLength + "\r\nServer: " + ip + "\r\nDate: " + time.ToString());
+                                    MyLogger.Log("[Server Response]" + " - " + "HTTP/1.1 200 Content-Type: text/html Content-Length: " + fileInformation.Length.ToString() + "Server: " + ip + "Date: " + time.ToString());
 
                                     byte[] msg = System.Text.Encoding.ASCII.GetBytes(res);
 
