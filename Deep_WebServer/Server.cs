@@ -107,15 +107,27 @@ namespace Deep_WebServer
 
                                 string extension = inputData[1].Substring(place+1);
 
-                                if(extension == "html" || extension == "htm")
+                                if(extension == "html" || extension == "htm" || extension =="htmls" || extension =="htx")
                                 {
                                     file = root + inputData[1];
 
                                     string fileInformation = File.ReadAllText(file);
                                     DateTime time = DateTime.Now;
                                     string res = "HTTP/1.1\r\nContent-Type: text/html\r\nContent-Length: " + fileInformation.Length.ToString() + "\r\nServer: " + ip + "\r\nDate: " + time.ToString() + "\r\n\r\n" + fileInformation;
-                                    //File.ReadAllBytes(file);
 
+                                    byte[] msg = System.Text.Encoding.ASCII.GetBytes(res);
+
+                                    //Writes data to NetworkStream.
+                                    stream.Write(msg, 0, msg.Length);
+                                }
+                                else if(extension =="htt")
+                                {
+                                    file = root + inputData[1];
+
+                                    string fileInformation = File.ReadAllText(file);
+                                    DateTime time = DateTime.Now;
+                                    string res = "HTTP/1.1\r\nContent-Type: text/webviewhtml\r\nContent-Length: " + fileInformation.Length.ToString() + "\r\nServer: " + ip + "\r\nDate: " + time.ToString() + "\r\n\r\n" + fileInformation;
+                                    
 
                                     byte[] msg = System.Text.Encoding.ASCII.GetBytes(res);
 
@@ -129,15 +141,14 @@ namespace Deep_WebServer
                                     string fileInformation = File.ReadAllText(file);
                                     DateTime time = DateTime.Now;
                                     string res = "HTTP/1.1\r\nContent-Type: text/plain\r\nContent-Length: " + fileInformation.Length.ToString() + "\r\nServer: " + ip + "\r\nDate: " + time.ToString() + "\r\n\r\n" + fileInformation;
-                                    //File.ReadAllBytes(file);
-
+                                    
 
                                     byte[] msg = System.Text.Encoding.ASCII.GetBytes(res);
 
                                     //Writes data to NetworkStream.
                                     stream.Write(msg, 0, msg.Length);
                                 }
-                                else if(extension == "jpg" )
+                                else if(extension == "jpg" || extension == "jpeg" || extension =="pjp" || extension =="jfif" || extension =="jfif")
                                 {
                                     file = root + inputData[1];
 
