@@ -33,6 +33,14 @@ namespace myOwnWebServer
         
         //Initializes variable that will listens connection from TCP network clients.
         private TcpListener server = null;
+        public Logger MyLogger { get; private set; }
+
+
+        public Server()
+        {
+            MyLogger = new Logger("myOwnWebServer.log");
+            MyLogger.Log("Starting server...");
+        }
 
 
         /*  -- Method Header Comment
@@ -46,8 +54,7 @@ namespace myOwnWebServer
         public void StartServer(string root, string ip, string portNum)
         {
             try
-            {
-                
+            { 
                 //Instantiating localAddr as an IPAddress object.
                 IPAddress localAddr = IPAddress.Parse(ip);
 
@@ -66,6 +73,7 @@ namespace myOwnWebServer
                     }
                     else
                     {
+
                         
                         //Initializes local variables.
                         Byte[] bytes = new Byte[256];
@@ -84,6 +92,7 @@ namespace myOwnWebServer
                         //Instantiating stream as an NetworkStream object and It also sends and recieve data.
                         NetworkStream stream = client.GetStream();
 
+
                         //Initializes local variables.
                         int length = 0;
                         int c = 0;
@@ -91,6 +100,9 @@ namespace myOwnWebServer
                         //Loop will continue until all data is not read.
                         while ((length = stream.Read(bytes, 0, bytes.Length)) != 0)
                         {
+
+                            MyLogger.Log("[Server Request]" + " - " + "HTTP/1.1 Content-Type: text/html Content-Length: " + fileInformation.Length.ToString() + "Server: " + ip + "Date: " + time.ToString());
+                            
 
                             //Stores the incoming message.
                             data = System.Text.Encoding.ASCII.GetString(bytes, 0, length);
@@ -117,7 +129,11 @@ namespace myOwnWebServer
 
                                     string fileInformation = File.ReadAllText(file);
                                     DateTime time = DateTime.Now;
-                                    string res = "HTTP/1.1\r\nContent-Type: text/html\r\nContent-Length: " + fileInformation.Length.ToString() + "\r\nServer: " + ip + "\r\nDate: " + time.ToString() + "\r\n\r\n" + fileInformation;
+                                    string ContentLength = fileInformation.Length.ToString();
+
+                                    string res = "HTTP/1.1\r\nContent-Type: text/html\r\nContent-Length: " + ContentLength + "\r\nServer: " + ip + "\r\nDate: " + time.ToString() + "\r\n\r\n" + fileInformation;
+
+                                    MyLogger.Log("[Server Response]" + " - " + "HTTP/1.1 200 Content-Type: text/html Content-Length: " + fileInformation.Length.ToString() + "Server: " + ip + "Date: " + time.ToString());
 
                                     byte[] msg = System.Text.Encoding.ASCII.GetBytes(res);
 
