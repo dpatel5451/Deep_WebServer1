@@ -22,5 +22,10 @@ namespace myOwnWebServer
             myStreamWriter.WriteLine(DateTime.Now.ToString() + " " + logMessage);
             myStreamWriter.Flush();
         }
+
+        public static void DeleteLog(string filePath)
+        {
+            File.Delete(filePath);
+        }
     }
 }
