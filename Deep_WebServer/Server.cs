@@ -161,6 +161,14 @@ namespace myOwnWebServer
                                    
                                     byte[] msg = System.Text.Encoding.ASCII.GetBytes(res);
 
+                                    /*
+                                    * Title			: Concat two or more byte arrays in C#
+                                    * Author		: Techie Delight 
+                                    * Date			: 2021-11-26
+                                    * Version		: 1.1.26
+                                    * Availability	: https://www.techiedelight.com/concatenate-byte-arrays-csharp/
+                                    */
+
                                     byte[] bytess = new byte[msg.Length + fileInformation.Length];
                                     Buffer.BlockCopy(msg, 0, bytes, 0, msg.Length);
                                     Buffer.BlockCopy(fileInformation, 0, bytes, msg.Length, fileInformation.Length);
@@ -180,6 +188,15 @@ namespace myOwnWebServer
 
 
                                     byte[] msg = System.Text.Encoding.ASCII.GetBytes(res);
+
+
+                                    /*
+                                    * Title			: Concat two or more byte arrays in C#
+                                    * Author		: Techie Delight 
+                                    * Date			: 2021-11-26
+                                    * Version		: 1.1.26
+                                    * Availability	: https://www.techiedelight.com/concatenate-byte-arrays-csharp/
+                                    */
 
                                     byte[] bytess = new byte[msg.Length + fileInformation.Length];
                                     Buffer.BlockCopy(msg, 0, bytes, 0, msg.Length);
