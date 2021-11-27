@@ -36,6 +36,7 @@ namespace myOwnWebServer
         public Logger MyLogger { get; private set; }
 
 
+
         public Server()
         {
             MyLogger = new Logger("myOwnWebServer.log");
@@ -260,20 +261,17 @@ namespace myOwnWebServer
 
                 }
                 
-
             }
             catch (FileNotFoundException)
             {
                 MyLogger.Log("404 Not Found");
             }
-            catch(IOException)
-            {
-
-            }
             catch(SocketException)
             {
                 MyLogger.Log("500 Server Error");
                 Console.WriteLine("500 Server Error");
+
+                server.Stop();
             }
 
         }
@@ -281,3 +279,5 @@ namespace myOwnWebServer
 
     }
 }
+
+// make PROPRERTY

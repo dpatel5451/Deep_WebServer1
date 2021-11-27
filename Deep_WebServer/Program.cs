@@ -69,10 +69,6 @@ namespace myOwnWebServer
 
 			//Starts the server.
 			serve.StartServer(webRoot, webIp, webPort);
-
-			
-			Logger.DeleteLog("myOwnWebServer.log");
-
 		}
 	}
 }

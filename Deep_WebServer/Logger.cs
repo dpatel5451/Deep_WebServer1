@@ -13,6 +13,10 @@ namespace myOwnWebServer
 
         public Logger (string filePath)
         {
+            if (File.Exists(filePath))
+            {
+                DeleteLog(filePath);
+            }
             this.MyFileStream = new FileStream(filePath, FileMode.Append, FileAccess.Write);
         }
 
