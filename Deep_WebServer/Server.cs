@@ -5,7 +5,9 @@
 * First Version	:	24/11/2021
 * Description	:	It will start the server using user entered webRoot, webIP and
 *                   webPort. It will also checks if the request type is GET. If it
-*                   is not, it will prompt error to user and 
+*                   is not, it will prompt error to user if user doesnt enter extensions
+*                   as specified. It will catch all the important exceptions and will
+*                   create a log entry for each exceptions
 */
 
 
@@ -236,7 +238,7 @@ namespace myOwnWebServer
             }
             catch (Exception ex)
             {
-                throw;
+                
             }
             catch 
             {
