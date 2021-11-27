@@ -104,8 +104,6 @@ namespace myOwnWebServer
                             //Stores the incoming message.
                             data = System.Text.Encoding.ASCII.GetString(bytes, 0, length);
 
-                            MyLogger.Log("[Server Request]" + data);
-
                             string request = data.Substring(0,3);
 
                             //If request is not GET, it will close the client.
@@ -126,6 +124,8 @@ namespace myOwnWebServer
                                 {
                                     file = root + inputData[1];
 
+                                    MyLogger.Log("[Server Request] " + request + file);
+
                                     string fileInformation = File.ReadAllText(file);
                                     DateTime time = DateTime.Now;
                                     string ContentLength = fileInformation.Length.ToString();
@@ -143,10 +143,13 @@ namespace myOwnWebServer
                                 {
                                     file = root + inputData[1];
 
+                                    MyLogger.Log("[Server Request] " + request + file);
+
                                     string fileInformation = File.ReadAllText(file);
                                     DateTime time = DateTime.Now;
                                     string res = "HTTP/1.1\r\nContent-Type: text/webviewhtml\r\nContent-Length: " + fileInformation.Length.ToString() + "\r\nServer: " + ip + "\r\nDate: " + time.ToString() + "\r\n\r\n" + fileInformation;
-                                    
+
+                                    MyLogger.Log("[Server Response]" + " - " + "HTTP/1.1 200 Content-Type: text/html Content-Length: " + fileInformation.Length.ToString() + "Server: " + ip + "Date: " + time.ToString());
 
                                     byte[] msg = System.Text.Encoding.ASCII.GetBytes(res);
 
@@ -157,10 +160,13 @@ namespace myOwnWebServer
                                 {
                                     file = root + inputData[1];
 
+                                    MyLogger.Log("[Server Request] " + request + file);
+
                                     string fileInformation = File.ReadAllText(file);
                                     DateTime time = DateTime.Now;
                                     string res = "HTTP/1.1\r\nContent-Type: text/plain\r\nContent-Length: " + fileInformation.Length.ToString() + "\r\nServer: " + ip + "\r\nDate: " + time.ToString() + "\r\n\r\n" + fileInformation;
-                                    
+
+                                    MyLogger.Log("[Server Response]" + " - " + "HTTP/1.1 200 Content-Type: text/html Content-Length: " + fileInformation.Length.ToString() + "Server: " + ip + "Date: " + time.ToString());
 
                                     byte[] msg = System.Text.Encoding.ASCII.GetBytes(res);
 
@@ -171,13 +177,16 @@ namespace myOwnWebServer
                                 {
                                     file = root + inputData[1];
 
+                                    MyLogger.Log("[Server Request] " + request + file);
+
                                     DateTime time = DateTime.Now;
 
                                     byte[] fileInformation = File.ReadAllBytes(file);
 
                                     string res = "HTTP/1.1\r\nContent-Type: image/jpeg\r\nContent-Length: " + fileInformation.Length.ToString() + "\r\nServer: " + ip + "\r\nDate: " + time.ToString() + "\r\n\r\n";
 
-                                   
+                                    MyLogger.Log("[Server Response]" + " - " + "HTTP/1.1 200 Content-Type: text/html Content-Length: " + fileInformation.Length.ToString() + "Server: " + ip + "Date: " + time.ToString());
+
                                     byte[] msg = System.Text.Encoding.ASCII.GetBytes(res);
 
                                     /*
@@ -199,12 +208,15 @@ namespace myOwnWebServer
                                 {
                                     file = root + inputData[1];
 
+                                    MyLogger.Log("[Server Request] " + request + file);
+
                                     DateTime time = DateTime.Now;
 
                                     byte[] fileInformation = File.ReadAllBytes(file);
 
                                     string res = "HTTP/1.1\r\nContent-Type: image/gif\r\nContent-Length: " + fileInformation.Length.ToString() + "\r\nServer: " + ip + "\r\nDate: " + time.ToString() + "\r\n\r\n";
 
+                                    MyLogger.Log("[Server Response]" + " - " + "HTTP/1.1 200 Content-Type: text/html Content-Length: " + fileInformation.Length.ToString() + "Server: " + ip + "Date: " + time.ToString());
 
                                     byte[] msg = System.Text.Encoding.ASCII.GetBytes(res);
 
