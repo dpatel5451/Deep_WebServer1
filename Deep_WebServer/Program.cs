@@ -8,6 +8,7 @@
 
 
 
+using myOwnWebServer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static WDD_A6.InputVerification;
 
-namespace Deep_WebServer
+namespace myOwnWebServer
 {
 
 	/* Name     : Program

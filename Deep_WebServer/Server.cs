@@ -18,7 +18,7 @@ using System.Threading;
 using System.IO;
 
 
-namespace Deep_WebServer
+namespace myOwnWebServer
 {
 
     /* Name      : Server
@@ -215,9 +215,9 @@ namespace Deep_WebServer
                 
 
             }
-            catch (FileNotFoundException)
+            catch (Exception ex)
             {
-                
+                throw;
             }
             catch 
             {
