@@ -30,7 +30,6 @@ namespace myOwnWebServer
 
 		static void Main(string[] args)
 		{
-
 			//Initializes webRoot, webIP and webPort.
 			string webRoot = "";
 			string webIp = "";
@@ -39,13 +38,11 @@ namespace myOwnWebServer
 			//Initializes isValidInput as an false bool.
 			bool isValidInput = false;
 
-			//If args.Length is not 3, it will print error.
-			if (args.Length != 3)
-			{
-				Console.WriteLine("Please enter arguments for all three command line arguments:");
-				Console.WriteLine(@"myOwnWebServer –webRoot=C:\localWebSite –webIP=192.168.100.23 –webPort=5300");
-			}
-			else
+			//Start the logger
+			Logger.StartLogger("myOwnWebServer.log");
+
+			//If args.Length is not 3, it will log an error.
+			if (args.Length == 3)
 			{
 				//If args.Length is 3, it will set isValidInput to true.
 				isValidInput = true;
@@ -75,14 +72,21 @@ namespace myOwnWebServer
 			//If isValidInput is false, and shuts the program.
 			if (!isValidInput)
 			{
+				string logApplicationStartFail = $@"[APPLICATION INVALID PARAMETERS] - webRoot:{webRoot}, webIp:{webIp}, webPort:{webPort} ******** E.g. format: myOwnWebServer –webRoot=C:\localWebSite –webIP=192.168.100.23 –webPort=5300";
+				Logger.Log(logApplicationStartFail);
+
 				Console.ReadKey();
 				return;
 			}
 
+			//Input parameter log message
+			string logApplicationStart = $"[APPLICATION START] - webRoot:{webRoot}, webIp:{webIp}, webPort:{webPort}";
+			Logger.Log(logApplicationStart);
+
             //Initializes instance of local variable server.  
             Server serve = new Server();
 
-			//Starts the server using webRoot, webIP and webPort as an Paramater.
+			//Starts the server using webRoot, webIP and webPort as an Parameter.
 			serve.StartServer(webRoot, webIp, webPort);
 		}
 	}

@@ -15,8 +15,7 @@ namespace myOwnWebServer
         public string ContentLength { get; private set; }
         public string Ip { get; private set; }
 
-        readonly Logger MyLogger;
-        public ServerResponseBytes(string root, string fileResource, string ip, Logger inLogger)
+        public ServerResponseBytes(string root, string fileResource, string ip)
         {
             FilePath = root + fileResource;
 
@@ -27,8 +26,6 @@ namespace myOwnWebServer
 
             //Stores fileInformation length into 'contentLength' string.
             ContentLength = FileInformation.Length.ToString();
-
-            MyLogger = inLogger;
         }
 
         public string GenerateServerResponseJpg()
@@ -37,7 +34,7 @@ namespace myOwnWebServer
             DateTime time = DateTime.Now;
 
             //Logs server response into log file.
-            MyLogger.Log("[Server Response]" + " - " + "HTTP/1.1 200 Content-Type: image/jpeg Content-Length: " + ContentLength + " Server: " + Ip + " Date: " + time.ToString());
+            Logger.Log("[Server Response]" + " - " + "HTTP/1.1 200 Content-Type: image/jpeg Content-Length: " + ContentLength + " Server: " + Ip + " Date: " + time.ToString());
 
             return "HTTP/1.1\r\nContent-Type: image/jpeg\r\nContent-Length: " + ContentLength + "\r\nServer: " + Ip + "\r\nDate: " + time.ToString() + "\r\n\r\n";
         }
@@ -48,7 +45,7 @@ namespace myOwnWebServer
             DateTime time = DateTime.Now;
 
             //Logs server response into log file.
-            MyLogger.Log("[Server Response]" + " - " + "HTTP/1.1 200 Content-Type: image/gif Content-Length: " + ContentLength + " Server: " + Ip + " Date: " + time.ToString());
+            Logger.Log("[Server Response]" + " - " + "HTTP/1.1 200 Content-Type: image/gif Content-Length: " + ContentLength + " Server: " + Ip + " Date: " + time.ToString());
 
             return "HTTP/1.1\r\nContent-Type: image/gif\r\nContent-Length: " + ContentLength + "\r\nServer: " + Ip + "\r\nDate: " + time.ToString() + "\r\n\r\n";
         }

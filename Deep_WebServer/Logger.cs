@@ -30,7 +30,7 @@ namespace myOwnWebServer
     {
 
         // Gets and sets MyFileStream.
-        public FileStream MyFileStream { get; private set; }
+        public static FileStream MyFileStream { get; private set; }
 
 
 
@@ -42,7 +42,7 @@ namespace myOwnWebServer
 	    * Outputs	:	NONE
 	    * Returns	:	Nothing
         */
-        public Logger (string filePath)
+        public static void StartLogger (string filePath)
         {
 
             //If file exists, it will delete Log file.
@@ -52,8 +52,7 @@ namespace myOwnWebServer
             }
 
             //Initializes a new instance of the FileStream class.
-            this.MyFileStream = new FileStream(filePath, FileMode.Append, FileAccess.Write);
-
+            MyFileStream = new FileStream(filePath, FileMode.Append, FileAccess.Write);
         }
 
 
@@ -65,13 +64,13 @@ namespace myOwnWebServer
             Inputs	:	logMessage     -   string
             Returns	:	Nothing
         */
-        public void Log(string logMessage)
+        public static void Log(string logMessage)
         {
 
             //Initializes a new instance of StreamWritee class.
             StreamWriter myStreamWriter = new StreamWriter(MyFileStream);
 
-            //Writes messsage to log file.
+            //Writes message to log file.
             myStreamWriter.WriteLine(DateTime.Now.ToString() + " " + logMessage);
 
             //Clears all the buffers.
@@ -92,7 +91,6 @@ namespace myOwnWebServer
 
             //Deletes the specified file.
             File.Delete(filePath);
-
         }
     }
 }

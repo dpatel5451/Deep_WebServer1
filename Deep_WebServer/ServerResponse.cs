@@ -15,9 +15,7 @@ namespace myOwnWebServer
         public string ContentLength { get; private set; }
         public string Ip { get; private set; }
 
-        readonly Logger MyLogger;
-
-        public ServerResponse(string root, string fileResource, string ip, Logger inLogger)
+        public ServerResponse(string root, string fileResource, string ip)
         {
             FilePath = root + fileResource;
 
@@ -27,17 +25,16 @@ namespace myOwnWebServer
             FileInformation = File.ReadAllText(FilePath);
 
             //Stores fileInformation length into 'contentLength' string.
-            ContentLength = FileInformation.Length.ToString();
-            
-            MyLogger = inLogger;
+            ContentLength = FileInformation.Length.ToString();            
         }
+
         public string GenerateServerResponseHtml()
         {
             //Current date and time.
             DateTime time = DateTime.Now;
 
             //Logs server response into log file.
-            MyLogger.Log("[Server Response]" + " - " + "HTTP/1.1 200 Content-Type: text/html Content-Length: " + ContentLength + " Server: " + Ip + " Date: " + time.ToString());
+            Logger.Log("[Server Response]" + " - " + "HTTP/1.1 200 Content-Type: text/html Content-Length: " + ContentLength + " Server: " + Ip + " Date: " + time.ToString());
 
             return "HTTP/1.1\r\nContent-Type: text/html\r\nContent-Length: " + ContentLength + "\r\nServer: " + Ip + "\r\nDate: " + time.ToString() + "\r\n\r\n" + FileInformation;
         }
@@ -48,7 +45,7 @@ namespace myOwnWebServer
             DateTime time = DateTime.Now;
 
             //Logs server response into log file.
-            MyLogger.Log("[Server Response]" + " - " + "HTTP/1.1 200 Content-Type: text/webviewhtml Content-Length: " + ContentLength + " Server: " + Ip + " Date: " + time.ToString());
+            Logger.Log("[Server Response]" + " - " + "HTTP/1.1 200 Content-Type: text/webviewhtml Content-Length: " + ContentLength + " Server: " + Ip + " Date: " + time.ToString());
 
             return "HTTP/1.1\r\nContent-Type: text/webviewhtml\r\nContent-Length: " + ContentLength + "\r\nServer: " + Ip + "\r\nDate: " + time.ToString() + "\r\n\r\n" + FileInformation;
         }
@@ -59,7 +56,7 @@ namespace myOwnWebServer
             DateTime time = DateTime.Now;
 
             //Logs server response into log file.
-            MyLogger.Log("[Server Response]" + " - " + "HTTP/1.1 200 Content-Type: text/plain Content-Length: " + ContentLength + " Server: " + Ip + " Date: " + time.ToString());
+            Logger.Log("[Server Response]" + " - " + "HTTP/1.1 200 Content-Type: text/plain Content-Length: " + ContentLength + " Server: " + Ip + " Date: " + time.ToString());
 
             return "HTTP/1.1\r\nContent-Type: text/plain\r\nContent-Length: " + ContentLength + "\r\nServer: " + Ip + "\r\nDate: " + time.ToString() + "\r\n\r\n" + FileInformation;
         }

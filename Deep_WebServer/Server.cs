@@ -20,6 +20,7 @@ using System.Net.Sockets;
 using System.Configuration;
 using System.Threading;
 using System.IO;
+using static myOwnWebServer.Logger;
 
 
 
@@ -34,9 +35,6 @@ namespace myOwnWebServer
         
         //Initializes variable that will listens connection from TCP network clients.
         private TcpListener server = null;
-
-        //Gets and sets MyLogger.
-        public Logger MyLogger { get; private set; }
         
         //Underlying data stream
         NetworkStream Stream { get; set; }
@@ -52,8 +50,6 @@ namespace myOwnWebServer
         */
         public Server()
         {
-            MyLogger = new Logger("myOwnWebServer.log");
-            MyLogger.Log("Starting server...");
         }
 
 
@@ -81,6 +77,8 @@ namespace myOwnWebServer
                 //Starts the server.
                 server.Start();
 
+                Logger.Log("[SERVER STARTED] - start is successful");
+
                 while (true)
                 {
                     //Checks if there are any pending connection requests.
@@ -99,7 +97,6 @@ namespace myOwnWebServer
 
                         //Initializes local variables.
                         string[] inputData = {""};
-                        string file;
                         
                         //Declaring "data" to null.
                         data = null;
@@ -119,7 +116,7 @@ namespace myOwnWebServer
                             ClientRequest myClientRequest = new ClientRequest(data);
 
                             //Logs server request into log file.
-                            MyLogger.Log("[Server Request] " + myClientRequest.RequestType + " " + myClientRequest.Resource);
+                            Logger.Log("[SERVER REQUEST] - " + myClientRequest.RequestType + " " + myClientRequest.Resource);
 
                             //Checks if request type is GET
                             if (myClientRequest.VerifyRequest())
@@ -127,7 +124,7 @@ namespace myOwnWebServer
                                 //Checks if the extension is allowed.
                                 if(myClientRequest.VerifyResourceExtensionHtmlFiles())
                                 {
-                                    ServerResponse myServerResponse = new ServerResponse(root, myClientRequest.Resource, ip, MyLogger);
+                                    ServerResponse myServerResponse = new ServerResponse(root, myClientRequest.Resource, ip);
 
                                     string res = myServerResponse.GenerateServerResponseHtml();
 
@@ -139,7 +136,7 @@ namespace myOwnWebServer
                                 }
                                 else if(myClientRequest.VerifyResourceExtensionHttFile())
                                 {
-                                    ServerResponse myServerResponse = new ServerResponse(root, myClientRequest.Resource, ip, MyLogger);
+                                    ServerResponse myServerResponse = new ServerResponse(root, myClientRequest.Resource, ip);
 
                                     string res = myServerResponse.GenerateServerResponseHtt();
 
@@ -151,7 +148,7 @@ namespace myOwnWebServer
                                 }
                                 else if(myClientRequest.VerifyResourceExtensionTxtFiles())
                                 {
-                                    ServerResponse myServerResponse = new ServerResponse(root, myClientRequest.Resource, ip, MyLogger);
+                                    ServerResponse myServerResponse = new ServerResponse(root, myClientRequest.Resource, ip);
 
                                     string res = myServerResponse.GenerateServerResponseTxt();
 
@@ -163,7 +160,7 @@ namespace myOwnWebServer
                                 }
                                 else if (myClientRequest.VerifyResourceExtensionJpgImages()) {
 
-                                    ServerResponseBytes myServerResponse = new ServerResponseBytes(root, myClientRequest.Resource, ip, MyLogger);
+                                    ServerResponseBytes myServerResponse = new ServerResponseBytes(root, myClientRequest.Resource, ip);
 
                                     string res = myServerResponse.GenerateServerResponseJpg();
 
@@ -189,7 +186,7 @@ namespace myOwnWebServer
                                 }
                                 else if(myClientRequest.VerifyResourceExtensionGif())
                                 {
-                                    ServerResponseBytes myServerResponse = new ServerResponseBytes(root, myClientRequest.Resource, ip, MyLogger);
+                                    ServerResponseBytes myServerResponse = new ServerResponseBytes(root, myClientRequest.Resource, ip);
 
                                     string res = myServerResponse.GenerateServerResponseJpg();
 
@@ -216,17 +213,17 @@ namespace myOwnWebServer
                                 else
                                 {
                                     //If the extension is not allowed it will report it in Log File.
-                                    MyLogger.Log("415 Unsupported Media Type");
+                                    Logger.Log("[CLIENT ERROR] - 415 Unsupported Media Type");
                                 }
                             }
                             else
                             { 
                                 //If Request type is not GET, it will report it in Log File.
-                                MyLogger.Log("401 Unauthorized");
+                                Logger.Log("[CLIENT ERROR] - 401 Unauthorized");
                             }
                         }
-                        //Disposes TcpClient instance and requests that underlying TCP connection to be closed.
 
+                        //Disposes TcpClient instance and requests that underlying TCP connection to be closed
                         client.Close();
                     }
                 }
@@ -234,15 +231,15 @@ namespace myOwnWebServer
             catch (FileNotFoundException)
             {
                 //Catches FileNotFoundException and will report into Log file. 
-                MyLogger.Log("404 Not Found");
+                Logger.Log("[EXCEPTION] - 404 Not Found");
             }
             catch(SocketException)
             {
                 //Catches SocketException and will report into Log file.
-                MyLogger.Log("500 Server Error");
+                Logger.Log("[EXCEPTION] - 500 Server Error");
 
                 //Prints Server Shutdown message.
-                Console.WriteLine("500 Server Error");
+                Console.WriteLine("[EXCEPTION] - 500 Server Error");
 
                 //Stops the server.
                 server.Stop();
