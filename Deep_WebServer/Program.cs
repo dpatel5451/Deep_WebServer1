@@ -1,9 +1,11 @@
 ﻿/*
 * Filename		:	Program.cs
 * Project		:	PROG2001 - Assignment 06 
-* Programmer	:	Deep Kalpeshkumar Patel
+* Programmer	:	Deep Patel & Sean Mccarthy
 * First Version	:	24/11/2021
-* Description	:	
+* Description	:	It will check if suer entered 3 fields in command line arguments
+*					or not. If user didn't entered any 1 of the fields, it will show
+*					error. It will start the server using the user entered inputs.
 */
 
 

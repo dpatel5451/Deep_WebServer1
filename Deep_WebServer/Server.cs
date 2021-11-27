@@ -1,9 +1,11 @@
 ﻿/*
-* Filename		:	Program.cs
+* Filename		:	Server.cs
 * Project		:	PROG2001 - Assignment 06 
-* Programmer	:	Deep Kalpeshkumar Patel
+* Programmer	:	Deep Patel & Sean Mccarthy
 * First Version	:	24/11/2021
-* Description	:	
+* Description	:	It will start the server using user entered webRoot, webIP and
+*                   webPort. It will also checks if the request type is GET. If it
+*                   is not, it will prompt error to user and 
 */
 
 
