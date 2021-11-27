@@ -17,6 +17,7 @@ using System.Configuration;
 using System.Threading;
 using System.IO;
 
+
 namespace Deep_WebServer
 {
 
@@ -106,22 +107,48 @@ namespace Deep_WebServer
 
                                 string extension = inputData[1].Substring(place+1);
 
-                                if(extension == "html" || extension == "htm" || extension == "txt")
+                                if(extension == "html" || extension == "htm" || extension =="htmls" || extension =="htx")
                                 {
                                     file = root + inputData[1];
 
                                     string fileInformation = File.ReadAllText(file);
                                     DateTime time = DateTime.Now;
                                     string res = "HTTP/1.1\r\nContent-Type: text/html\r\nContent-Length: " + fileInformation.Length.ToString() + "\r\nServer: " + ip + "\r\nDate: " + time.ToString() + "\r\n\r\n" + fileInformation;
-                                    //File.ReadAllBytes(file);
-
 
                                     byte[] msg = System.Text.Encoding.ASCII.GetBytes(res);
 
                                     //Writes data to NetworkStream.
                                     stream.Write(msg, 0, msg.Length);
                                 }
-                                else if(extension == "jpg" || extension == "gif")
+                                else if(extension =="htt")
+                                {
+                                    file = root + inputData[1];
+
+                                    string fileInformation = File.ReadAllText(file);
+                                    DateTime time = DateTime.Now;
+                                    string res = "HTTP/1.1\r\nContent-Type: text/webviewhtml\r\nContent-Length: " + fileInformation.Length.ToString() + "\r\nServer: " + ip + "\r\nDate: " + time.ToString() + "\r\n\r\n" + fileInformation;
+                                    
+
+                                    byte[] msg = System.Text.Encoding.ASCII.GetBytes(res);
+
+                                    //Writes data to NetworkStream.
+                                    stream.Write(msg, 0, msg.Length);
+                                }
+                                else if(extension == "txt")
+                                {
+                                    file = root + inputData[1];
+
+                                    string fileInformation = File.ReadAllText(file);
+                                    DateTime time = DateTime.Now;
+                                    string res = "HTTP/1.1\r\nContent-Type: text/plain\r\nContent-Length: " + fileInformation.Length.ToString() + "\r\nServer: " + ip + "\r\nDate: " + time.ToString() + "\r\n\r\n" + fileInformation;
+                                    
+
+                                    byte[] msg = System.Text.Encoding.ASCII.GetBytes(res);
+
+                                    //Writes data to NetworkStream.
+                                    stream.Write(msg, 0, msg.Length);
+                                }
+                                else if(extension == "jpg" || extension == "jpeg" || extension =="pjp" || extension =="jfif" || extension =="jfif")
                                 {
                                     file = root + inputData[1];
 
@@ -129,9 +156,29 @@ namespace Deep_WebServer
 
                                     byte[] fileInformation = File.ReadAllBytes(file);
 
-                                    string res = "HTTP/1.1\r\nContent-Type: text/html\r\nContent-Length: " + fileInformation.Length.ToString() + "\r\nServer: " + ip + "\r\nDate: " + time.ToString() + "\r\n\r\n";
+                                    string res = "HTTP/1.1\r\nContent-Type: image/jpeg\r\nContent-Length: " + fileInformation.Length.ToString() + "\r\nServer: " + ip + "\r\nDate: " + time.ToString() + "\r\n\r\n";
 
                                    
+                                    byte[] msg = System.Text.Encoding.ASCII.GetBytes(res);
+
+                                    byte[] bytess = new byte[msg.Length + fileInformation.Length];
+                                    Buffer.BlockCopy(msg, 0, bytes, 0, msg.Length);
+                                    Buffer.BlockCopy(fileInformation, 0, bytes, msg.Length, fileInformation.Length);
+
+                                    //Writes data to NetworkStream.
+                                    stream.Write(bytess, 0, bytess.Length);
+                                }
+                                else if(extension == "gif")
+                                {
+                                    file = root + inputData[1];
+
+                                    DateTime time = DateTime.Now;
+
+                                    byte[] fileInformation = File.ReadAllBytes(file);
+
+                                    string res = "HTTP/1.1\r\nContent-Type: image/gif\r\nContent-Length: " + fileInformation.Length.ToString() + "\r\nServer: " + ip + "\r\nDate: " + time.ToString() + "\r\n\r\n";
+
+
                                     byte[] msg = System.Text.Encoding.ASCII.GetBytes(res);
 
                                     byte[] bytess = new byte[msg.Length + fileInformation.Length];
@@ -168,7 +215,11 @@ namespace Deep_WebServer
                 
 
             }
-            catch
+            catch (FileNotFoundException)
+            {
+                
+            }
+            catch 
             {
                 throw;
             }
