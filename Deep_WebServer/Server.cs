@@ -228,7 +228,7 @@ namespace myOwnWebServer
                                 else
                                 {
 
-                                    MyLogger.Log("400 Bad Request");
+                                    MyLogger.Log("415 Unsupported Media Type");
 
                                     break;
                                 }
@@ -240,6 +240,7 @@ namespace myOwnWebServer
 
                                 MyLogger.Log("401 Unauthorized");
                                 break;
+
                             }
 
 
@@ -254,9 +255,13 @@ namespace myOwnWebServer
                 
 
             }
-            catch (Exception ex)
+            catch (FileNotFoundException)
             {
-                
+                MyLogger.Log("404 Not Found");
+            }
+            catch(IOException)
+            {
+
             }
             catch 
             {
