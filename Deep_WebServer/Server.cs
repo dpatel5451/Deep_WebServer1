@@ -101,11 +101,10 @@ namespace myOwnWebServer
                         while ((length = stream.Read(bytes, 0, bytes.Length)) != 0)
                         {
 
-                            MyLogger.Log("[Server Request]" + " - " + "HTTP/1.1 Content-Type: text/html Content-Length: " + fileInformation.Length.ToString() + "Server: " + ip + "Date: " + time.ToString());
-                            
-
                             //Stores the incoming message.
                             data = System.Text.Encoding.ASCII.GetString(bytes, 0, length);
+
+                            MyLogger.Log("[Server Request]" + data);
 
                             string request = data.Substring(0,3);
 
