@@ -227,8 +227,9 @@ namespace myOwnWebServer
                                 }
                                 else
                                 {
-                                    
-                                    client.Close();
+
+                                    MyLogger.Log("400 Bad Request");
+
                                     break;
                                 }
 
@@ -236,7 +237,8 @@ namespace myOwnWebServer
                             }
                             else
                             {
-                                client.Close();
+
+                                MyLogger.Log("401 Unauthorized");
                                 break;
                             }
 
