@@ -22,6 +22,7 @@ using System.Threading;
 using System.IO;
 
 
+
 namespace myOwnWebServer
 {
 
@@ -36,6 +37,9 @@ namespace myOwnWebServer
 
         //Gets and sets MyLogger.
         public Logger MyLogger { get; private set; }
+        
+        //Underlying data stream
+        NetworkStream Stream { get; set; }
 
 
         /*  -- Method Header Comment
@@ -86,8 +90,6 @@ namespace myOwnWebServer
                     }
                     else
                     {
-
-                        
                         //Initializes local variables.
                         Byte[] bytes = new Byte[256];
                         string data = null;
@@ -103,133 +105,69 @@ namespace myOwnWebServer
                         data = null;
 
                         //Instantiating stream as an NetworkStream object and It also sends and recieve data.
-                        NetworkStream stream = client.GetStream();
-
+                        Stream = client.GetStream();
 
                         //Initializes local variables.
                         int length = 0;
-                        int c = 0;
 
                         //Loop will continue until all data is not read.
-                        while ((length = stream.Read(bytes, 0, bytes.Length)) != 0)
+                        while ((length = Stream.Read(bytes, 0, bytes.Length)) != 0)
                         {
-
                             //Stores the incoming message.
                             data = System.Text.Encoding.ASCII.GetString(bytes, 0, length);
 
-                            //It will retrieve first 3 characters from data and will store it in "request" string.
-                            string request = data.Substring(0,3);
+                            ClientRequest myClientRequest = new ClientRequest(data);
+
+                            //Logs server request into log file.
+                            MyLogger.Log("[Server Request] " + myClientRequest.RequestType + " " + myClientRequest.Resource);
 
                             //Checks if request type is GET
-                            if(request == "GET")
+                            if (myClientRequest.VerifyRequest())
                             {
-
-                                //Split the data once and will store it in inputData.
-                                if (c == 0)
-                                {
-                                    inputData = data.Split(' ');
-                                    c = 1;
-                                }
-
-                                //Finds the last index of '.' in the string and will store it in 'place' int.
-                                int place = inputData[1].LastIndexOf(".");
-
-                                //Store 'extension' string parsed from input Data.
-                                string extension = inputData[1].Substring(place+1);
-
                                 //Checks if the extension is allowed.
-                                if(extension == "html" || extension == "htm" || extension =="htmls" || extension =="htx")
+                                if(myClientRequest.VerifyResourceExtensionHtmlFiles())
                                 {
+                                    ServerResponse myServerResponse = new ServerResponse(root, myClientRequest.Resource, ip, MyLogger);
 
-                                    //Stores the File root and file location into 'file' string.
-                                    file = root + inputData[1];
-
-                                    //Logs server request into log file.
-                                    MyLogger.Log("[Server Request] " + request + " " + file);
-
-                                    //Reads the whole file and will store it into 'fileInformation' string.
-                                    string fileInformation = File.ReadAllText(file);
-
-                                    //Current date and time.
-                                    DateTime time = DateTime.Now;
-
-                                    //Stores fileInformation length into 'contentLength' string.
-                                    string ContentLength = fileInformation.Length.ToString();
-
-                                    //Contains Content-Type, ContentLength, Server, Data and Contents of the file. 
-                                    string res = "HTTP/1.1\r\nContent-Type: text/html\r\nContent-Length: " + ContentLength + "\r\nServer: " + ip + "\r\n Date: " + time.ToString() + "\r\n\r\n" + fileInformation;
-
-                                    //Logs server response into log file.
-                                    MyLogger.Log("[Server Response]" + " - " + "HTTP/1.1 200 Content-Type: text/html Content-Length: " + fileInformation.Length.ToString() + " Server: " + ip + " Date: " + time.ToString());
+                                    string res = myServerResponse.GenerateServerResponseHtml();
 
                                     //Encodes all the characters of 'res' string and stores it in 'msg' as an byte array.
                                     byte[] msg = System.Text.Encoding.ASCII.GetBytes(res);
 
                                     //Writes data to NetworkStream.
-                                    stream.Write(msg, 0, msg.Length);
+                                    Stream.Write(msg, 0, msg.Length);
                                 }
-                                else if(extension =="htt")
+                                else if(myClientRequest.VerifyResourceExtensionHttFile())
                                 {
+                                    ServerResponse myServerResponse = new ServerResponse(root, myClientRequest.Resource, ip, MyLogger);
 
-                                    //Stores the File root and file location into 'file' string.
-                                    file = root + inputData[1];
-
-                                    //Logs server request into log file.
-                                    MyLogger.Log("[Server Request] " + request + " " + file);
-
-                                    //Reads the whole file and will store it into 'fileInformation' string.
-                                    string fileInformation = File.ReadAllText(file);
-
-                                    //Current date and time.
-                                    DateTime time = DateTime.Now;
-
-                                    //Contains Content-Type, ContentLength, Server, Data and Contents of the file. 
-                                    string res = "HTTP/1.1\r\nContent-Type: text/webviewhtml\r\nContent-Length: " + fileInformation.Length.ToString() + "\r\nServer: " + ip + "\r\nDate: " + time.ToString() + "\r\n\r\n" + fileInformation;
-
-                                    //Logs server response into log file.
-                                    MyLogger.Log("[Server Response]" + " - " + "HTTP/1.1 200 Content-Type: text/html Content-Length: " + fileInformation.Length.ToString() + " Server: " + ip + " Date: " + time.ToString());
+                                    string res = myServerResponse.GenerateServerResponseHtt();
 
                                     //Encodes all the characters of 'res' string and stores it in 'msg' as an byte array.
                                     byte[] msg = System.Text.Encoding.ASCII.GetBytes(res);
 
                                     //Writes data to NetworkStream.
-                                    stream.Write(msg, 0, msg.Length);
+                                    Stream.Write(msg, 0, msg.Length);
                                 }
-                                else if(extension == "txt")
+                                else if(myClientRequest.VerifyResourceExtensionTxtFiles())
                                 {
+                                    ServerResponse myServerResponse = new ServerResponse(root, myClientRequest.Resource, ip, MyLogger);
 
-                                    //Stores the File root and file location into 'file' string.
-                                    file = root + inputData[1];
-
-                                    //Logs server request into log file.
-                                    MyLogger.Log("[Server Request] " + request + " " + file);
-
-                                    //Reads the whole file and will store it into 'fileInformation' string.
-                                    string fileInformation = File.ReadAllText(file);
-
-                                    //Current date and time.
-                                    DateTime time = DateTime.Now;
-
-                                    //Contains Content-Type, ContentLength, Server, Data and Contents of the file. 
-                                    string res = "HTTP/1.1\r\nContent-Type: text/plain\r\nContent-Length: " + fileInformation.Length.ToString() + "\r\nServer: " + ip + "\r\nDate: " + time.ToString() + "\r\n\r\n" + fileInformation;
-
-                                    //Logs server response into log file.
-                                    MyLogger.Log("[Server Response]" + " - " + "HTTP/1.1 200 Content-Type: text/html Content-Length: " + fileInformation.Length.ToString() + " Server: " + ip + " Date: " + time.ToString());
+                                    string res = myServerResponse.GenerateServerResponseTxt();
 
                                     //Encodes all the characters of 'res' string and stores it in 'msg' as an byte array.
                                     byte[] msg = System.Text.Encoding.ASCII.GetBytes(res);
 
                                     //Writes data to NetworkStream.
-                                    stream.Write(msg, 0, msg.Length);
+                                    Stream.Write(msg, 0, msg.Length);
                                 }
-                                else if(extension == "jpg" || extension == "jpeg" || extension =="pjp" || extension =="jfif" || extension =="jfif")
-                                {
+                                else if (myClientRequest.VerifyResourceExtensionJpgImages()) {
 
                                     //Stores the File root and file location into 'file' string.
-                                    file = root + inputData[1];
+                                    file = root + myClientRequest.Resource;
 
                                     //Logs server request into log file.
-                                    MyLogger.Log("[Server Request] " + request + " " + file);
+                                    MyLogger.Log("[Server Request] " + myClientRequest.RequestType + " " + file);
 
                                     //Current date and time.
                                     DateTime time = DateTime.Now;
@@ -260,16 +198,16 @@ namespace myOwnWebServer
                                     Buffer.BlockCopy(fileInformation, 0, bytes, msg.Length, fileInformation.Length);
 
                                     //Writes data to NetworkStream.
-                                    stream.Write(bytess, 0, bytess.Length);
+                                    Stream.Write(bytess, 0, bytess.Length);
                                 }
-                                else if(extension == "gif")
+                                else if(myClientRequest.VerifyResourceExtensionGif())
                                 {
 
                                     //Stores the File root and file location into 'file' string.
                                     file = root + inputData[1];
 
                                     //Logs server request into log file.
-                                    MyLogger.Log("[Server Request] " + request + " " + file);
+                                    MyLogger.Log("[Server Request] " + myClientRequest.RequestType + " " + file);
 
                                     //Current date and time.
                                     DateTime time = DateTime.Now;
@@ -301,49 +239,33 @@ namespace myOwnWebServer
                                     Buffer.BlockCopy(fileInformation, 0, bytes, msg.Length, fileInformation.Length);
 
                                     //Writes data to NetworkStream.
-                                    stream.Write(bytess, 0, bytess.Length);
+                                    Stream.Write(bytess, 0, bytess.Length);
                                 }
                                 else
                                 {
-
-                                    //If extesion is not allowed it will report it in Log File.
+                                    //If the extension is not allowed it will report it in Log File.
                                     MyLogger.Log("415 Unsupported Media Type");
-
-                                    break;
                                 }
-
-                                
                             }
                             else
-                            {
-
+                            { 
                                 //If Request type is not GET, it will report it in Log File.
                                 MyLogger.Log("401 Unauthorized");
-                                break;
-
                             }
-
-
                         }
+                        //Disposes TcpClient instance and requests that underlying TCP connection to be closed.
 
-                        //Disposes TcpClient instance and requests that underlying TCP connection to be closed. 
                         client.Close();
-
                     }
-
                 }
-                
             }
             catch (FileNotFoundException)
             {
-
                 //Catches FileNotFoundException and will report into Log file. 
                 MyLogger.Log("404 Not Found");
-
             }
             catch(SocketException)
             {
-
                 //Catches SocketException and will report into Log file.
                 MyLogger.Log("500 Server Error");
 
@@ -353,10 +275,7 @@ namespace myOwnWebServer
                 //Stops the server.
                 server.Stop();
             }
-
         }
-
-
     }
 }
 
