@@ -19,7 +19,7 @@ namespace myOwnWebServer
         public void Log(string logMessage)
         {
             StreamWriter myStreamWriter = new StreamWriter(MyFileStream);
-            myStreamWriter.WriteLine(DateTime.Now.ToString() + ":" + logMessage);
+            myStreamWriter.WriteLine(DateTime.Now.ToString() + " " + logMessage);
             myStreamWriter.Flush();
         }
     }
