@@ -22,17 +22,24 @@ namespace myOwnWebServer
 {
 
 	/* Name     : Program
-    * Purpose   : The purpose of this class is to initialize instance of server and will start the server.
+    * Purpose   : The purpose of this class is to initialize instance of server
+    *			  and will start the server using webRoot, webIP and webPort.
     */
 	internal class Program
 	{
+
 		static void Main(string[] args)
 		{
+
+			//Initializes webRoot, webIP and webPort.
 			string webRoot = "";
 			string webIp = "";
 			string webPort = "";
 
+			//Initializes isValidInput as an false bool.
 			bool isValidInput = false;
+
+			//If args.Length is not 3, it will print error.
 			if (args.Length != 3)
 			{
 				Console.WriteLine("Please enter arguments for all three command line arguments:");
@@ -40,17 +47,24 @@ namespace myOwnWebServer
 			}
 			else
 			{
+				//If args.Length is 3, it will set isValidInput to true.
 				isValidInput = true;
+
+				//If ValidateEntireWebRoot is not true, it will set isValidInput to false and prompts error to user.
 				if (!ValidateEntireWebRoot(args[0], out webRoot))
 				{
 					Console.WriteLine("Please enter the switch for the webRoot correctly, e.g.: \"–webRoot=C:\\localWebSite\"");
 					isValidInput = false;
 				}
+
+				//If ValidateEntireWebIp is not true, it will set isValidInput to false and prompts error to user.
 				if (!ValidateEntireWebIp(args[1], out webIp))
 				{
 					Console.WriteLine("Please enter the switch for the webIp correctly, e.g.: \"–webIP=192.168.0.100.23\"");
 					isValidInput = false;
 				}
+
+				//If ValidateEntireServerPort is not true, it will set isValidInput to false and prompts error to user.
 				if (!ValidateEntireServerPort(args[2], out webPort))
 				{
 					Console.WriteLine("Please enter the switch for the serverPort correctly, e.g.: \"–webIP=5300\"");
@@ -58,6 +72,7 @@ namespace myOwnWebServer
 				}
 			}
 
+			//If isValidInput is false, and shuts the program.
 			if (!isValidInput)
 			{
 				Console.ReadKey();
@@ -67,7 +82,7 @@ namespace myOwnWebServer
             //Initializes instance of local variable server.  
             Server serve = new Server();
 
-			//Starts the server.
+			//Starts the server using webRoot, webIP and webPort as an Paramater.
 			serve.StartServer(webRoot, webIp, webPort);
 		}
 	}
