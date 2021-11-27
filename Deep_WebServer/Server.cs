@@ -270,9 +270,10 @@ namespace myOwnWebServer
             {
 
             }
-            catch 
+            catch(SocketException)
             {
-                throw;
+                MyLogger.Log("500 Server Error");
+                Console.WriteLine("500 Server Error");
             }
 
         }

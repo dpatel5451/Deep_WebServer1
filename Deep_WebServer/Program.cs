@@ -63,11 +63,6 @@ namespace myOwnWebServer
 				Console.ReadKey();
 				return;
 			}
-			else
-            {
-				Console.WriteLine("You entered the webRoot as: {0}, the webIp as: {1}, and the webPort as: {2}", webRoot, webIp, webPort);
-				Console.WriteLine("Starting the server now...");
-            }
 
             //Initializes instance of local variable server.  
             Server serve = new Server();
