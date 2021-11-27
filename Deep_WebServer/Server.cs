@@ -163,23 +163,10 @@ namespace myOwnWebServer
                                 }
                                 else if (myClientRequest.VerifyResourceExtensionJpgImages()) {
 
-                                    //Stores the File root and file location into 'file' string.
-                                    file = root + myClientRequest.Resource;
+                                    ServerResponseBytes myServerResponse = new ServerResponseBytes(root, myClientRequest.Resource, ip, MyLogger);
 
-                                    //Logs server request into log file.
-                                    MyLogger.Log("[Server Request] " + myClientRequest.RequestType + " " + file);
+                                    string res = myServerResponse.GenerateServerResponseJpg();
 
-                                    //Current date and time.
-                                    DateTime time = DateTime.Now;
-
-                                    //Reads all bytes from 'file' and will store it as an bytes array into 'fileInformation'.
-                                    byte[] fileInformation = File.ReadAllBytes(file);
-
-                                    //Contains Content-Type, ContentLength, Server, Data and Contents of the file. 
-                                    string res = "HTTP/1.1\r\nContent-Type: image/jpeg\r\nContent-Length: " + fileInformation.Length.ToString() + "\r\nServer: " + ip + "\r\nDate: " + time.ToString() + "\r\n\r\n";
-
-                                    //Logs server response into log file.
-                                    MyLogger.Log("[Server Response]" + " - " + "HTTP/1.1 200 Content-Type: text/html Content-Length: " + fileInformation.Length.ToString() + " Server: " + ip + " Date: " + time.ToString());
 
                                     //Encodes all the characters of 'res' string and stores it in 'msg' as an byte array.
                                     byte[] msg = System.Text.Encoding.ASCII.GetBytes(res);
@@ -193,37 +180,22 @@ namespace myOwnWebServer
                                     */
 
                                     //Merges two bytes of arrays using both arrays Length and by using BlockCopy.
-                                    byte[] bytess = new byte[msg.Length + fileInformation.Length];
-                                    Buffer.BlockCopy(msg, 0, bytes, 0, msg.Length);
-                                    Buffer.BlockCopy(fileInformation, 0, bytes, msg.Length, fileInformation.Length);
+                                    byte[] bytess = new byte[msg.Length + int.Parse(myServerResponse.ContentLength)];
+                                    Buffer.BlockCopy(msg, 0, bytess, 0, msg.Length);
+                                    Buffer.BlockCopy(myServerResponse.FileInformation, 0, bytess, msg.Length, int.Parse(myServerResponse.ContentLength));
 
                                     //Writes data to NetworkStream.
                                     Stream.Write(bytess, 0, bytess.Length);
                                 }
                                 else if(myClientRequest.VerifyResourceExtensionGif())
                                 {
+                                    ServerResponseBytes myServerResponse = new ServerResponseBytes(root, myClientRequest.Resource, ip, MyLogger);
 
-                                    //Stores the File root and file location into 'file' string.
-                                    file = root + inputData[1];
+                                    string res = myServerResponse.GenerateServerResponseJpg();
 
-                                    //Logs server request into log file.
-                                    MyLogger.Log("[Server Request] " + myClientRequest.RequestType + " " + file);
-
-                                    //Current date and time.
-                                    DateTime time = DateTime.Now;
-
-                                    //Reads all bytes from 'file' and will store it as an bytes array into 'fileInformation'.
-                                    byte[] fileInformation = File.ReadAllBytes(file);
-
-                                    //Contains Content-Type, ContentLength, Server, Data and Contents of the file. 
-                                    string res = "HTTP/1.1\r\nContent-Type: image/gif\r\nContent-Length: " + fileInformation.Length.ToString() + "\r\nServer: " + ip + "\r\nDate: " + time.ToString() + "\r\n\r\n";
-
-                                    //Logs server response into log file.
-                                    MyLogger.Log("[Server Response]" + " - " + "HTTP/1.1 200 Content-Type: text/html Content-Length: " + fileInformation.Length.ToString() + " Server: " + ip + " Date: " + time.ToString());
 
                                     //Encodes all the characters of 'res' string and stores it in 'msg' as an byte array.
                                     byte[] msg = System.Text.Encoding.ASCII.GetBytes(res);
-
 
                                     /*
                                     * Title			: Concat two or more byte arrays in C#
@@ -234,9 +206,9 @@ namespace myOwnWebServer
                                     */
 
                                     //Merges two bytes of arrays using both arrays Length and by using BlockCopy.
-                                    byte[] bytess = new byte[msg.Length + fileInformation.Length];
-                                    Buffer.BlockCopy(msg, 0, bytes, 0, msg.Length);
-                                    Buffer.BlockCopy(fileInformation, 0, bytes, msg.Length, fileInformation.Length);
+                                    byte[] bytess = new byte[msg.Length + int.Parse(myServerResponse.ContentLength)];
+                                    Buffer.BlockCopy(msg, 0, bytess, 0, msg.Length);
+                                    Buffer.BlockCopy(myServerResponse.FileInformation, 0, bytess, msg.Length, int.Parse(myServerResponse.ContentLength));
 
                                     //Writes data to NetworkStream.
                                     Stream.Write(bytess, 0, bytess.Length);

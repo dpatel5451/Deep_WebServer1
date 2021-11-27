@@ -41,5 +41,16 @@ namespace myOwnWebServer
 
             return "HTTP/1.1\r\nContent-Type: image/jpeg\r\nContent-Length: " + ContentLength + "\r\nServer: " + Ip + "\r\nDate: " + time.ToString() + "\r\n\r\n";
         }
+
+        public string GenerateServerResponseGif()
+        {
+            //Current date and time.
+            DateTime time = DateTime.Now;
+
+            //Logs server response into log file.
+            MyLogger.Log("[Server Response]" + " - " + "HTTP/1.1 200 Content-Type: image/gif Content-Length: " + ContentLength + " Server: " + Ip + " Date: " + time.ToString());
+
+            return "HTTP/1.1\r\nContent-Type: image/gif\r\nContent-Length: " + ContentLength + "\r\nServer: " + Ip + "\r\nDate: " + time.ToString() + "\r\n\r\n";
+        }
     }
 }
