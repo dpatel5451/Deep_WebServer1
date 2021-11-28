@@ -44,8 +44,10 @@ namespace myOwnWebServer
         */
         public ServerResponse(string root, string fileResource, string ip)
         {
+            //Update the full file path property
             FilePath = root + fileResource;
 
+            //Update the IP property
             Ip = ip;
 
             //Reads the whole file and will store it into 'fileInformation' string.
