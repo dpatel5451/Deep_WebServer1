@@ -60,5 +60,10 @@ namespace myOwnWebServer
 
             return "HTTP/1.1\r\nContent-Type: text/plain\r\nContent-Length: " + ContentLength + "\r\nServer: " + Ip + "\r\nDate: " + time.ToString() + "\r\n\r\n" + FileInformation;
         }
+
+        public static string GenerateWebResponseSite(string path)
+        {
+            return File.ReadAllText(@".\htmlPages\" + path);
+        }
     }
 }

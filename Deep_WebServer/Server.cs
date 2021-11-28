@@ -119,7 +119,7 @@ namespace myOwnWebServer
                             Logger.Log("[SERVER REQUEST] - " + myClientRequest.RequestType + " " + myClientRequest.Resource);
 
                             //Checks if request type is GET
-                            if (myClientRequest.VerifyRequest())
+                            if (myClientRequest.VerifyRequest() && myClientRequest.VerifyEndLine())
                             {
                                 //Checks if the extension is allowed.
                                 if(myClientRequest.VerifyResourceExtensionHtmlFiles())
@@ -188,7 +188,7 @@ namespace myOwnWebServer
                                 {
                                     ServerResponseBytes myServerResponse = new ServerResponseBytes(root, myClientRequest.Resource, ip);
 
-                                    string res = myServerResponse.GenerateServerResponseJpg();
+                                    string res = myServerResponse.GenerateServerResponseGif();
 
 
                                     //Encodes all the characters of 'res' string and stores it in 'msg' as an byte array.
@@ -212,8 +212,16 @@ namespace myOwnWebServer
                                 }
                                 else
                                 {
-                                    //If the extension is not allowed it will report it in Log File.
+                                    /*//If the extension is not allowed it will report it in Log File.
                                     Logger.Log("[CLIENT ERROR] - 415 Unsupported Media Type");
+
+                                    string res = ServerResponse.GenerateWebResponseSite("Error404.txt");
+
+                                    //Encodes all the characters of 'res' string and stores it in 'msg' as an byte array.
+                                    byte[] msg = System.Text.Encoding.ASCII.GetBytes(res);
+
+                                    //Writes data to NetworkStream.
+                                    Stream.Write(msg, 0, msg.Length);*/
                                 }
                             }
                             else
@@ -232,6 +240,11 @@ namespace myOwnWebServer
             {
                 //Catches FileNotFoundException and will report into Log file. 
                 Logger.Log("[EXCEPTION] - 404 Not Found");
+            }
+            catch (IOException)
+            {
+                //Catches FileNotFoundException and will report into Log file. 
+                Logger.Log("[EXCEPTION] - 409 Conflict");
             }
             catch(SocketException)
             {

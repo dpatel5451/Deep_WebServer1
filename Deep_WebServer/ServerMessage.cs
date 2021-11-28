@@ -14,7 +14,7 @@ public class ClientRequest
     public ClientRequest(string inData)
 	{
         Request = inData;
-        RequestSplit = Request.Split(new string[] { "\r\n", " " }, StringSplitOptions.RemoveEmptyEntries);
+        RequestSplit = Request.Split(new string[] { "\r\n", " " }, StringSplitOptions.None);
         RequestType = RequestSplit[0];
         Resource = RequestSplit[1];
 
@@ -40,6 +40,22 @@ public class ClientRequest
             result = false;
         }
         return result;
+    }
+
+    public bool VerifyEndLine()
+    {
+        bool isValid = false;
+        if (RequestSplit.Length > 2)
+        {
+            string secondLast = RequestSplit[RequestSplit.Length - 2];
+            string last = RequestSplit[RequestSplit.Length - 1];
+
+            if (secondLast == "" && last == "")
+            {
+                isValid = true;
+            }
+        }
+        return isValid;
     }
 
     public bool VerifyResourceExtensionHtmlFiles()
