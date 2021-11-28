@@ -67,18 +67,27 @@ namespace myOwnWebServer
 					Console.WriteLine("Please enter the switch for the serverPort correctly, e.g.: \"–webIP=5300\"");
 					isValidInput = false;
 				}
-			}
 
-			//If isValidInput is false, and shuts the program.
-			if (!isValidInput)
-			{
-				string logApplicationStartFail = $@"[APPLICATION INVALID PARAMETERS] - webRoot:{webRoot}, webIp:{webIp}, webPort:{webPort} ******** E.g. format: myOwnWebServer –webRoot=C:\localWebSite –webIP=192.168.100.23 –webPort=5300";
+				//If isValidInput is false, and shuts the program.
+				if (!isValidInput)
+				{
+					string logApplicationStartFail = $@"[APPLICATION INVALID PARAMETERS] - webRoot:{webRoot}, webIp:{webIp}, webPort:{webPort} ******** E.g. format: –webRoot=C:\localWebSite –webIP=192.168.100.23 –webPort=5300";
+					Logger.Log(logApplicationStartFail);
+
+					Console.ReadKey();
+					return;
+				}
+			}
+			else 
+            {
+				string logApplicationStartFail = @"[APPLICATION NOT THREE PARAMETERS] E.g. format: –webRoot=C:\localWebSite –webIP=192.168.100.23 –webPort=5300";
 				Logger.Log(logApplicationStartFail);
 
 				Console.ReadKey();
 				return;
 			}
 
+			
 			//Input parameter log message
 			string logApplicationStart = $"[APPLICATION START] - webRoot:{webRoot}, webIp:{webIp}, webPort:{webPort}";
 			Logger.Log(logApplicationStart);
