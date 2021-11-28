@@ -219,7 +219,7 @@ namespace myOwnWebServer
 
                                     ServerResponse myServerResponse = new ServerResponse(root, myClientRequest.Resource, ip);
 
-                                    string res = myServerResponse.GenerateServerResponseHtml()+ " " + ServerResponse.GenerateWebResponseSite("Error404.txt");
+                                    string res = myServerResponse.GenerateServerResponseHtml()+ " " + ServerResponse.GenerateWebResponseSite("Error415.html");
 
                                     //Encodes all the characters of 'res' string and stores it in 'msg' as an byte array.
                                     byte[] msg = System.Text.Encoding.ASCII.GetBytes(res);

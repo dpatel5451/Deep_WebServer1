@@ -57,7 +57,11 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <Content Include="htmlPages\Error404.txt" />
+    <Content Include="htmlPages\Error401.html" />
+    <Content Include="htmlPages\Error404.html" />
+    <Content Include="htmlPages\Error409.html" />
+    <Content Include="htmlPages\Error415.html" />
+    <Content Include="htmlPages\Error500.html" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
