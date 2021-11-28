@@ -120,135 +120,139 @@ namespace myOwnWebServer
                         //Logs server request into log file.
                         Logger.Log("[SERVER REQUEST] - " + myClientRequest.RequestType + " " + myClientRequest.Resource);
 
-                        //Check if request type is HTTP 1.1
-                        if (myClientRequest.VerifyHttpSpecification())
+                        try
                         {
-                            //Checks if request type is GET
-                            if (myClientRequest.VerifyRequest())
+                            //Check if request type is HTTP 1.1
+                            if (myClientRequest.VerifyHttpSpecification())
                             {
-                                //Checks if the extension is allowed.
-                                if (myClientRequest.VerifyResourceExtensionHtmlFiles())
+                                //Checks if request type is GET
+                                if (myClientRequest.VerifyRequest())
                                 {
-                                    ServerResponse myServerResponse = new ServerResponse(root, myClientRequest.Resource, ip);
+                                    
 
-                                    string res = myServerResponse.GenerateServerResponseHtml();
+                                    //Checks if the extension is allowed.
+                                    if (myClientRequest.VerifyResourceExtensionHtmlFiles())
+                                    {
+                                        ServerResponse myServerResponse = new ServerResponse(root, myClientRequest.Resource, ip);
 
-                                    //Encodes all the characters of 'res' string and stores it in 'msg' as an byte array.
-                                    byte[] msg = System.Text.Encoding.ASCII.GetBytes(res);
+                                        string res = myServerResponse.GenerateServerResponseHtml();
 
-                                    //Writes data to NetworkStream.
-                                    Stream.Write(msg, 0, msg.Length);
-                                }
-                                else if (myClientRequest.VerifyResourceExtensionHttFile())
-                                {
-                                    ServerResponse myServerResponse = new ServerResponse(root, myClientRequest.Resource, ip);
+                                        //Encodes all the characters of 'res' string and stores it in 'msg' as an byte array.
+                                        byte[] msg = System.Text.Encoding.ASCII.GetBytes(res);
 
-                                    string res = myServerResponse.GenerateServerResponseHtt();
+                                        //Writes data to NetworkStream.
+                                        Stream.Write(msg, 0, msg.Length);
+                                    }
+                                    else if (myClientRequest.VerifyResourceExtensionHttFile())
+                                    {
+                                        ServerResponse myServerResponse = new ServerResponse(root, myClientRequest.Resource, ip);
 
-                                    //Encodes all the characters of 'res' string and stores it in 'msg' as an byte array.
-                                    byte[] msg = System.Text.Encoding.ASCII.GetBytes(res);
+                                        string res = myServerResponse.GenerateServerResponseHtt();
 
-                                    //Writes data to NetworkStream.
-                                    Stream.Write(msg, 0, msg.Length);
-                                }
-                                else if (myClientRequest.VerifyResourceExtensionTxtFiles())
-                                {
-                                    ServerResponse myServerResponse = new ServerResponse(root, myClientRequest.Resource, ip);
+                                        //Encodes all the characters of 'res' string and stores it in 'msg' as an byte array.
+                                        byte[] msg = System.Text.Encoding.ASCII.GetBytes(res);
 
-                                    string res = myServerResponse.GenerateServerResponseTxt();
+                                        //Writes data to NetworkStream.
+                                        Stream.Write(msg, 0, msg.Length);
+                                    }
+                                    else if (myClientRequest.VerifyResourceExtensionTxtFiles())
+                                    {
+                                        ServerResponse myServerResponse = new ServerResponse(root, myClientRequest.Resource, ip);
 
-                                    //Encodes all the characters of 'res' string and stores it in 'msg' as an byte array.
-                                    byte[] msg = System.Text.Encoding.ASCII.GetBytes(res);
+                                        string res = myServerResponse.GenerateServerResponseTxt();
 
-                                    //Writes data to NetworkStream.
-                                    Stream.Write(msg, 0, msg.Length);
-                                }
-                                else if (myClientRequest.VerifyResourceExtensionJpgImages())
-                                {
+                                        //Encodes all the characters of 'res' string and stores it in 'msg' as an byte array.
+                                        byte[] msg = System.Text.Encoding.ASCII.GetBytes(res);
 
-                                    ServerResponseBytes myServerResponse = new ServerResponseBytes(root, myClientRequest.Resource, ip);
+                                        //Writes data to NetworkStream.
+                                        Stream.Write(msg, 0, msg.Length);
+                                    }
+                                    else if (myClientRequest.VerifyResourceExtensionJpgImages())
+                                    {
 
-                                    string res = myServerResponse.GenerateServerResponseJpg();
+                                        ServerResponseBytes myServerResponse = new ServerResponseBytes(root, myClientRequest.Resource, ip);
 
-
-                                    //Encodes all the characters of 'res' string and stores it in 'msg' as an byte array.
-                                    byte[] msg = System.Text.Encoding.ASCII.GetBytes(res);
-
-                                    /*
-                                    * Title			: Concat two or more byte arrays in C#
-                                    * Author		: Techie Delight 
-                                    * Date			: 2021-11-26
-                                    * Version		: 1.1.26
-                                    * Availability	: https://www.techiedelight.com/concatenate-byte-arrays-csharp/
-                                    */
-
-                                    //Merges two bytes of arrays using both arrays Length and by using BlockCopy.
-                                    byte[] bytess = new byte[msg.Length + int.Parse(myServerResponse.ContentLength)];
-                                    Buffer.BlockCopy(msg, 0, bytess, 0, msg.Length);
-                                    Buffer.BlockCopy(myServerResponse.FileInformation, 0, bytess, msg.Length, int.Parse(myServerResponse.ContentLength));
-
-                                    //Writes data to NetworkStream.
-                                    Stream.Write(bytess, 0, bytess.Length);
-                                }
-                                else if (myClientRequest.VerifyResourceExtensionGif())
-                                {
-                                    ServerResponseBytes myServerResponse = new ServerResponseBytes(root, myClientRequest.Resource, ip);
-
-                                    string res = myServerResponse.GenerateServerResponseGif();
+                                        string res = myServerResponse.GenerateServerResponseJpg();
 
 
-                                    //Encodes all the characters of 'res' string and stores it in 'msg' as an byte array.
-                                    byte[] msg = System.Text.Encoding.ASCII.GetBytes(res);
+                                        //Encodes all the characters of 'res' string and stores it in 'msg' as an byte array.
+                                        byte[] msg = System.Text.Encoding.ASCII.GetBytes(res);
 
-                                    /*
-                                    * Title			: Concat two or more byte arrays in C#
-                                    * Author		: Techie Delight 
-                                    * Date			: 2021-11-26
-                                    * Version		: 1.1.26
-                                    * Availability	: https://www.techiedelight.com/concatenate-byte-arrays-csharp/
-                                    */
+                                        /*
+                                        * Title			: Concat two or more byte arrays in C#
+                                        * Author		: Techie Delight 
+                                        * Date			: 2021-11-26
+                                        * Version		: 1.1.26
+                                        * Availability	: https://www.techiedelight.com/concatenate-byte-arrays-csharp/
+                                        */
 
-                                    //Merges two bytes of arrays using both arrays Length and by using BlockCopy.
-                                    byte[] bytess = new byte[msg.Length + int.Parse(myServerResponse.ContentLength)];
-                                    Buffer.BlockCopy(msg, 0, bytess, 0, msg.Length);
-                                    Buffer.BlockCopy(myServerResponse.FileInformation, 0, bytess, msg.Length, int.Parse(myServerResponse.ContentLength));
+                                        //Merges two bytes of arrays using both arrays Length and by using BlockCopy.
+                                        byte[] bytess = new byte[msg.Length + int.Parse(myServerResponse.ContentLength)];
+                                        Buffer.BlockCopy(msg, 0, bytess, 0, msg.Length);
+                                        Buffer.BlockCopy(myServerResponse.FileInformation, 0, bytess, msg.Length, int.Parse(myServerResponse.ContentLength));
 
-                                    //Writes data to NetworkStream.
-                                    Stream.Write(bytess, 0, bytess.Length);
+                                        //Writes data to NetworkStream.
+                                        Stream.Write(bytess, 0, bytess.Length);
+                                    }
+                                    else if (myClientRequest.VerifyResourceExtensionGif())
+                                    {
+                                        ServerResponseBytes myServerResponse = new ServerResponseBytes(root, myClientRequest.Resource, ip);
+
+                                        string res = myServerResponse.GenerateServerResponseGif();
+
+
+                                        //Encodes all the characters of 'res' string and stores it in 'msg' as an byte array.
+                                        byte[] msg = System.Text.Encoding.ASCII.GetBytes(res);
+
+                                        /*
+                                        * Title			: Concat two or more byte arrays in C#
+                                        * Author		: Techie Delight 
+                                        * Date			: 2021-11-26
+                                        * Version		: 1.1.26
+                                        * Availability	: https://www.techiedelight.com/concatenate-byte-arrays-csharp/
+                                        */
+
+                                        //Merges two bytes of arrays using both arrays Length and by using BlockCopy.
+                                        byte[] bytess = new byte[msg.Length + int.Parse(myServerResponse.ContentLength)];
+                                        Buffer.BlockCopy(msg, 0, bytess, 0, msg.Length);
+                                        Buffer.BlockCopy(myServerResponse.FileInformation, 0, bytess, msg.Length, int.Parse(myServerResponse.ContentLength));
+
+                                        //Writes data to NetworkStream.
+                                        Stream.Write(bytess, 0, bytess.Length);
+                                    }
+                                    else
+                                    {
+                                        //If the extension is not allowed it will report it in Log File.
+                                        Logger.Log("[CLIENT ERROR] - 415 Unsupported Media Type");
+                                    }
                                 }
                                 else
                                 {
-                                    //If the extension is not allowed it will report it in Log File.
-                                    Logger.Log("[CLIENT ERROR] - 415 Unsupported Media Type");
+                                    //If Request type is not GET, it will report it in Log File.
+                                    Logger.Log("[CLIENT ERROR] - 401 Unauthorized");
                                 }
                             }
                             else
                             {
                                 //If Request type is not GET, it will report it in Log File.
-                                Logger.Log("[CLIENT ERROR] - 401 Unauthorized");
+                                Logger.Log("[CLIENT ERROR] - 400 Bad Request");
                             }
-                        }
-                        else
-                        {
-                            //If Request type is not GET, it will report it in Log File.
-                            Logger.Log("[CLIENT ERROR] - 400 Bad Request");
-                        }
-                        
-                        //Disposes TcpClient instance and requests that underlying TCP connection to be closed
-                        client.Close();
 
+                            //Disposes TcpClient instance and requests that underlying TCP connection to be closed
+                            client.Close();
+                        }
+                        catch (FileNotFoundException)
+                        {
+                            //Catches FileNotFoundException and will report into Log file. 
+                            Logger.Log("[EXCEPTION] - 404 Not Found");
+                        }
+                        catch (IOException)
+                        {
+                            //Catches FileNotFoundException and will report into Log file. 
+                            Logger.Log("[EXCEPTION] - 409 Conflict");
+                        }
                     }
                 }
-            }
-            catch (FileNotFoundException)
-            {
-                //Catches FileNotFoundException and will report into Log file. 
-                Logger.Log("[EXCEPTION] - 404 Not Found");
-            }
-            catch (IOException)
-            {
-                //Catches FileNotFoundException and will report into Log file. 
-                Logger.Log("[EXCEPTION] - 409 Conflict");
             }
             catch(SocketException)
             {
