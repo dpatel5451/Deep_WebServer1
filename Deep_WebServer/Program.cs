@@ -18,6 +18,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static WDD_A6.InputVerification;
 
+
 namespace myOwnWebServer
 {
 
@@ -71,6 +72,8 @@ namespace myOwnWebServer
 				//If isValidInput is false, and shuts the program.
 				if (!isValidInput)
 				{
+
+					//Logs that 3 parameters are invalid to the log file.
 					string logApplicationStartFail = $@"[APPLICATION INVALID PARAMETERS] - webRoot:{webRoot}, webIp:{webIp}, webPort:{webPort} ******** E.g. format: –webRoot=C:\localWebSite –webIP=192.168.100.23 –webPort=5300";
 					Logger.Log(logApplicationStartFail);
 
@@ -80,6 +83,8 @@ namespace myOwnWebServer
 			}
 			else 
             {
+
+				//Logs that parameters are invalid to the log file.
 				string logApplicationStartFail = @"[APPLICATION NOT THREE PARAMETERS] E.g. format: –webRoot=C:\localWebSite –webIP=192.168.100.23 –webPort=5300";
 				Logger.Log(logApplicationStartFail);
 

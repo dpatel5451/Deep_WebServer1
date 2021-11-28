@@ -115,6 +115,7 @@ namespace myOwnWebServer
                         //Stores the incoming message.
                         data = System.Text.Encoding.ASCII.GetString(bytes, 0, length);
 
+                        //Initializes a new instance of ClientRequest class.
                         ClientRequest myClientRequest = new ClientRequest(data);
 
                         //Logs server request into log file.
@@ -128,13 +129,15 @@ namespace myOwnWebServer
                                 //Checks if request type is GET
                                 if (myClientRequest.VerifyRequest())
                                 {
-                                    
 
                                     //Checks if the extension is allowed.
                                     if (myClientRequest.VerifyResourceExtensionHtmlFiles())
                                     {
+
+                                        //Initializes a new instance of ServerResponse class.
                                         ServerResponse myServerResponse = new ServerResponse(root, myClientRequest.Resource, ip);
 
+                                        //Stores the generated server respone into string.
                                         string res = myServerResponse.GenerateServerResponseHtml();
 
                                         //Encodes all the characters of 'res' string and stores it in 'msg' as an byte array.
@@ -145,8 +148,11 @@ namespace myOwnWebServer
                                     }
                                     else if (myClientRequest.VerifyResourceExtensionHttFile())
                                     {
+
+                                        //Initializes a new instance of ServerResponse class.
                                         ServerResponse myServerResponse = new ServerResponse(root, myClientRequest.Resource, ip);
 
+                                        //Stores the generated server respone into string.
                                         string res = myServerResponse.GenerateServerResponseHtt();
 
                                         //Encodes all the characters of 'res' string and stores it in 'msg' as an byte array.
@@ -157,8 +163,11 @@ namespace myOwnWebServer
                                     }
                                     else if (myClientRequest.VerifyResourceExtensionTxtFiles())
                                     {
+
+                                        //Initializes a new instance of ServerResponse class.
                                         ServerResponse myServerResponse = new ServerResponse(root, myClientRequest.Resource, ip);
 
+                                        //Stores the generated server respone into string.
                                         string res = myServerResponse.GenerateServerResponseTxt();
 
                                         //Encodes all the characters of 'res' string and stores it in 'msg' as an byte array.
@@ -170,8 +179,10 @@ namespace myOwnWebServer
                                     else if (myClientRequest.VerifyResourceExtensionJpgImages())
                                     {
 
+                                        //Initializes a new instance of ServerResponseBytes class.
                                         ServerResponseBytes myServerResponse = new ServerResponseBytes(root, myClientRequest.Resource, ip);
 
+                                        //Stores the generated server respone into string.
                                         string res = myServerResponse.GenerateServerResponseJpg();
 
 
@@ -196,10 +207,12 @@ namespace myOwnWebServer
                                     }
                                     else if (myClientRequest.VerifyResourceExtensionGif())
                                     {
+
+                                        //Initializes a new instance of ServerResponseBytes class.
                                         ServerResponseBytes myServerResponse = new ServerResponseBytes(root, myClientRequest.Resource, ip);
 
+                                        //Stores the generated server respone into string.
                                         string res = myServerResponse.GenerateServerResponseGif();
-
 
                                         //Encodes all the characters of 'res' string and stores it in 'msg' as an byte array.
                                         byte[] msg = System.Text.Encoding.ASCII.GetBytes(res);
