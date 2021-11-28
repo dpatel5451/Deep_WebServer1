@@ -63,7 +63,7 @@ namespace myOwnWebServer
 
         public static string GenerateWebResponseSite(string path)
         {
-            return File.ReadAllText(@".\htmlPages\" + path);
+            return File.ReadAllText(@"..\..\htmlPages\" + path);
         }
     }
 }

@@ -119,10 +119,10 @@ namespace myOwnWebServer
                             Logger.Log("[SERVER REQUEST] - " + myClientRequest.RequestType + " " + myClientRequest.Resource);
 
                             //Checks if request type is GET
-                            if (myClientRequest.VerifyRequest() && myClientRequest.VerifyEndLine())
+                            if (myClientRequest.VerifyRequest())
                             {
                                 //Checks if the extension is allowed.
-                                if(myClientRequest.VerifyResourceExtensionHtmlFiles())
+                                if (myClientRequest.VerifyResourceExtensionHtmlFiles())
                                 {
                                     ServerResponse myServerResponse = new ServerResponse(root, myClientRequest.Resource, ip);
 
@@ -134,7 +134,7 @@ namespace myOwnWebServer
                                     //Writes data to NetworkStream.
                                     Stream.Write(msg, 0, msg.Length);
                                 }
-                                else if(myClientRequest.VerifyResourceExtensionHttFile())
+                                else if (myClientRequest.VerifyResourceExtensionHttFile())
                                 {
                                     ServerResponse myServerResponse = new ServerResponse(root, myClientRequest.Resource, ip);
 
@@ -146,7 +146,7 @@ namespace myOwnWebServer
                                     //Writes data to NetworkStream.
                                     Stream.Write(msg, 0, msg.Length);
                                 }
-                                else if(myClientRequest.VerifyResourceExtensionTxtFiles())
+                                else if (myClientRequest.VerifyResourceExtensionTxtFiles())
                                 {
                                     ServerResponse myServerResponse = new ServerResponse(root, myClientRequest.Resource, ip);
 
@@ -158,7 +158,8 @@ namespace myOwnWebServer
                                     //Writes data to NetworkStream.
                                     Stream.Write(msg, 0, msg.Length);
                                 }
-                                else if (myClientRequest.VerifyResourceExtensionJpgImages()) {
+                                else if (myClientRequest.VerifyResourceExtensionJpgImages())
+                                {
 
                                     ServerResponseBytes myServerResponse = new ServerResponseBytes(root, myClientRequest.Resource, ip);
 
@@ -184,7 +185,7 @@ namespace myOwnWebServer
                                     //Writes data to NetworkStream.
                                     Stream.Write(bytess, 0, bytess.Length);
                                 }
-                                else if(myClientRequest.VerifyResourceExtensionGif())
+                                else if (myClientRequest.VerifyResourceExtensionGif())
                                 {
                                     ServerResponseBytes myServerResponse = new ServerResponseBytes(root, myClientRequest.Resource, ip);
 
@@ -212,25 +213,27 @@ namespace myOwnWebServer
                                 }
                                 else
                                 {
-                                    /*//If the extension is not allowed it will report it in Log File.
+                                    //If the extension is not allowed it will report it in Log File.
                                     Logger.Log("[CLIENT ERROR] - 415 Unsupported Media Type");
 
-                                    string res = ServerResponse.GenerateWebResponseSite("Error404.txt");
+
+                                    ServerResponse myServerResponse = new ServerResponse(root, myClientRequest.Resource, ip);
+
+                                    string res = myServerResponse.GenerateServerResponseHtml()+ " " + ServerResponse.GenerateWebResponseSite("Error404.txt");
 
                                     //Encodes all the characters of 'res' string and stores it in 'msg' as an byte array.
                                     byte[] msg = System.Text.Encoding.ASCII.GetBytes(res);
 
                                     //Writes data to NetworkStream.
-                                    Stream.Write(msg, 0, msg.Length);*/
+                                    Stream.Write(msg, 0, msg.Length);
                                 }
                             }
                             else
-                            { 
+                            {
                                 //If Request type is not GET, it will report it in Log File.
                                 Logger.Log("[CLIENT ERROR] - 401 Unauthorized");
                             }
                         }
-
                         //Disposes TcpClient instance and requests that underlying TCP connection to be closed
                         client.Close();
                     }
