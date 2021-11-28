@@ -77,7 +77,9 @@ namespace myOwnWebServer
                 //Starts the server.
                 server.Start();
 
-                Logger.Log("[SERVER STARTED] - start is successful");
+                //Input parameter log message
+                string logServerStart = $"[SERVER STARTED] - webRoot:{root}, webIp:{ip}, webPort:{portNum}";
+                Logger.Log(logServerStart);
 
                 while (true)
                 {
@@ -108,16 +110,19 @@ namespace myOwnWebServer
                         int length = 0;
 
                         //Loop will continue until all data is not read.
-                        while ((length = Stream.Read(bytes, 0, bytes.Length)) != 0)
+                        length = Stream.Read(bytes, 0, bytes.Length);
+                        
+                        //Stores the incoming message.
+                        data = System.Text.Encoding.ASCII.GetString(bytes, 0, length);
+
+                        ClientRequest myClientRequest = new ClientRequest(data);
+
+                        //Logs server request into log file.
+                        Logger.Log("[SERVER REQUEST] - " + myClientRequest.RequestType + " " + myClientRequest.Resource);
+
+                        //Check if request type is HTTP 1.1
+                        if (myClientRequest.VerifyHttpSpecification())
                         {
-                            //Stores the incoming message.
-                            data = System.Text.Encoding.ASCII.GetString(bytes, 0, length);
-
-                            ClientRequest myClientRequest = new ClientRequest(data);
-
-                            //Logs server request into log file.
-                            Logger.Log("[SERVER REQUEST] - " + myClientRequest.RequestType + " " + myClientRequest.Resource);
-
                             //Checks if request type is GET
                             if (myClientRequest.VerifyRequest())
                             {
@@ -215,17 +220,6 @@ namespace myOwnWebServer
                                 {
                                     //If the extension is not allowed it will report it in Log File.
                                     Logger.Log("[CLIENT ERROR] - 415 Unsupported Media Type");
-
-
-                                    ServerResponse myServerResponse = new ServerResponse(root, myClientRequest.Resource, ip);
-
-                                    string res = myServerResponse.GenerateServerResponseHtml()+ " " + ServerResponse.GenerateWebResponseSite("Error415.html");
-
-                                    //Encodes all the characters of 'res' string and stores it in 'msg' as an byte array.
-                                    byte[] msg = System.Text.Encoding.ASCII.GetBytes(res);
-
-                                    //Writes data to NetworkStream.
-                                    Stream.Write(msg, 0, msg.Length);
                                 }
                             }
                             else
@@ -234,8 +228,15 @@ namespace myOwnWebServer
                                 Logger.Log("[CLIENT ERROR] - 401 Unauthorized");
                             }
                         }
+                        else
+                        {
+                            //If Request type is not GET, it will report it in Log File.
+                            Logger.Log("[CLIENT ERROR] - 400 Bad Request");
+                        }
+                        
                         //Disposes TcpClient instance and requests that underlying TCP connection to be closed
                         client.Close();
+
                     }
                 }
             }
@@ -263,5 +264,3 @@ namespace myOwnWebServer
         }
     }
 }
-
-// make PROPRERTY

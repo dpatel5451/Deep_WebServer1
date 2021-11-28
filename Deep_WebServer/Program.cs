@@ -84,13 +84,8 @@ namespace myOwnWebServer
 				Logger.Log(logApplicationStartFail);
 
 				Console.ReadKey();
-				return;
+					return;
 			}
-
-			
-			//Input parameter log message
-			string logApplicationStart = $"[APPLICATION START] - webRoot:{webRoot}, webIp:{webIp}, webPort:{webPort}";
-			Logger.Log(logApplicationStart);
 
             //Initializes instance of local variable server.  
             Server serve = new Server();

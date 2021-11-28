@@ -28,6 +28,16 @@ public class ClientRequest
         Host = RequestSplit[4];
     }
 
+    public bool VerifyHttpSpecification()
+    {
+        bool isValid = false;
+        if (HttpSpecification == "HTTP/1.1")
+        {
+            isValid = true;
+        }
+        return isValid;
+    }
+
     public bool VerifyRequest()
     {
         bool result;
