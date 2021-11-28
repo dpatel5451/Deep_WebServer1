@@ -58,7 +58,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ServerMessage.cs" />
+    <Compile Include="ClientRequest.cs" />
     <Compile Include="InputVerification.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="Program.cs" />

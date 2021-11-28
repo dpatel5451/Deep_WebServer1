@@ -1,4 +1,15 @@
-﻿using System;
+﻿/*
+* Filename		:	ServerMessage.cs
+* Project		:	PROG2001 - Assignment 06 
+* Programmer	:	Deep Patel & Sean Mccarthy
+* First Version	:	24/11/2021
+* Description	:	It will verify that user input matches the requirements. 
+*                   It will verify user entered webRoot, webIP & webPort.
+*                   And will return the input accordingly after verifying.
+*/
+
+
+using System;
 
 public class ClientRequest
 {
