@@ -12,7 +12,7 @@ using System;
 
 /* Name     : Program
 * Purpose   : The purpose of the ClientRequest is to hold the request message and parse its contents.
-*             The class has vitrifaction members to validate the request's contents.
+*             The class has verification members to validate the request's contents.
 */
 public class ClientRequest
 {

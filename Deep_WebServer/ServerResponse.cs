@@ -1,4 +1,13 @@
-﻿using System;
+﻿/*
+* Filename		:	ServerResponse.cs
+* Project		:	PROG2001 - Assignment 06 
+* Programmer	:	Deep Patel & Sean Mccarthy
+* First Version	:	24/11/2021
+* Description	:	The file holds the definition for the ServerResponse class.
+*/
+
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -7,8 +16,13 @@ using System.Threading.Tasks;
 
 namespace myOwnWebServer
 {
+    /* Name     : Program
+    * Purpose   : The purpose of the ServerResponse is to generate a response method based on passed in properties.
+    *             The class has server response methods for the each MIME type.
+    */
     class ServerResponse
     {
+        // properties
         public string FilePath { get; private set; }
         public string Response { get; private set; }
         public string FileInformation { get; private set; }
